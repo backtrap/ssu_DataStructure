@@ -1,0 +1,323 @@
+ * c++ 헤더 파일 선언
+#include <iostream>
+
+c언어와 다르게
+ 1. 확장자명 .h 사용 x
+ 2. 맨 앞에 접두사로 c 붙이기
+ex) <stdio.h> -> <csdio>
+
+
+ * c++ 출력
+std::cout<<출력1<<출력2<<출력3<<std::endl;
+
+std::endl이 개행을 의미
+
+그렇다고 해서 '\n'을 안 쓰지는 않다
+
+
+ * c++ 입력
+std::cin>>변수;
+
+ std>>cin>>변수1>>변수2;
+연이은 데이터의 입력을 명령
+이 때 입력되는 데이터의 구분은
+공백 (스페이스 바, 엔터, 탭)을 통해서 이뤄진다
+
+ 배열 기반의 문자열 입출력 역시 비슷하다
+char name[100];
+std::cin>>name;
+
+
+ * 함수 오버로딩  function overloading
+같은 함수명의 이름을 사용
+매개변수를 다르게 하여
+
+함수명 하나로
+다양한 기능 구현
+
+c++이 함수호칠 시
+함수 이름과 전달되는 인자의 정보를 동시에 참조하여
+호출할 함수를 결정하기 때문에
+
+함수 오버로딩의 기준이 되는 것은
+ 1. 매개변수의 자료형
+ 2. 매개변수의 개수
+
+함수 반환형의 차이는 함수 오버로딩의 조건이 아니다
+
+
+
+ * 매개변수 디폴트 값
+함수 호출 시 인자를 전달하지 않으면
+디폴트 값을 사용
+
+괄호 () 안에
+변수를 선언하는 것처럼 값을 값을 넣어둔다
+자료형 변수 = 값
+
+int func(int num1, int num2, int num3 = 3 , int num4 = 7) {}
+이런 식으로 사용
+
+단 전달되는 인자는 왼쪽부터 채워지므로
+디폴트 값은 오른쪽부터 채워야 한다
+
+ex)
+int func(int num1 = 10, num2)는 불가능
+int func(int num1, int num = 10)은 가능
+
+함수명 명시를 통해서 함수를 정의할 때
+디폴트 값의 선언은 함수의 선언부, 즉 앞에 위치해두어야 한다
+이 때 뒤의 정의 부분에서 디폴트 값을 사용하면 안 된다
+
+
+ * 이름 공간  namespace
+존재하는 이름 공간이 다르면
+같은 이름의 함수 및 변수 선언이 가능하다
+
+namespace 이름공간명 {}
+
+사용은
+ 1. 이름공간명::함수명();
+ 2. 이름공간명::변수명;
+
+ex)
+space01::val01;
+space02::val01;
+space01::func01();
+space02::func01();
+
+::는 범위 지정 연산자를 의미
+
+선언된 이름 공간명이 동일하다면
+같은 이름 공간으로 취급한다
+
+즉 
+namespace space01 {}
+namespace space01 {}
+은 따로 썼지만
+같은 이름 공간으로 인식되어 같이 저장된다
+
+이름 공간에 먼저 함수 명시만 하고
+나중에 정의를 해도 된다
+
+ex)
+namespace space01 {
+	int func(void)
+}
+int main(void) {}
+int space01::func(void) {}
+
+std 역시 이름 공간 중 하나이다
+std의 cout과 cin, endl
+
+
+ * 이름 공간의 중첩
+namespace space01 {
+	namespace space02 {}
+}
+
+호출은
+space01::space02::변수명
+
+
+ * using을 이용한 이름공간의 명시
+ 1. using 이름공간명::함수명
+ 2. using namespace 이름공간명
+
+using 이름공간명::함수명의 경우
+이름 공간 명시 없이 함수를 사용할 수 있다
+변수 역시 마찬가지
+
+using namespace 이름공간명
+해당 이름 공간의 모든 변수 및 함수를
+이름 공간 명시 없이 사용
+
+다만 너무 빈번하게 using namespace 이름공간명을 하면
+이름 공간의 목적 (이름의 충돌을 막기 위한)을 의미 없게 만든다
+제한적으로 사용하자
+
+
+ * 이름 공간의 별칭 지정
+namespace 별칭 = 이름공간주소
+
+ex) namespace ABC = AAA::BBB::CCC;
+
+
+ * 전역 변수 사용
+main() 함수 밖에 변수를 사용하고
+사용은 ::변수명 을 통해서 한다
+
+
+ * const 키워드
+ 1. const 자료형 변수명 = 값
+ 2. const 자료형 * 변수명 = 주소값
+ 3. 자료형 * const 변수명 = 주소값
+ 4. const 자료형 * const 변수명 = 주소값
+
+ const int num = 10
+변수 num을 상수화
+변수 num의 값 변경 불가능
+
+ const int * ptr = &num
+ 1. const와 int가 결합한 후
+ 2. *와 결합
+포인터를 이용하여 num의 값 변경 불가능
+포인터 ptr에 다른 주소를 넣을 수는 있음
+
+ int * const ptr = &num
+ 1. *와 int가 결합한 후
+ 2. const와 ptr이 결합
+즉 포인터 변수 ptr이 상수화되므로
+ptr에 다른 값을 넣을 수 없다
+
+ const int * const ptr = &num
+ 1. *와 int가 결합한 후
+ 2. const와 ptr이 결합
+즉 포인터 ptr에 다른 주소를 넣을 수도 없고
+포인터를 이용해서 num의 값을 변경할 수 없다
+
+
+ * 자료형 bool
+ 1. true
+ 2. false
+
+
+ * 참조자  reference
+변수에 새로운 별명을 지어준다고 생각
+
+자료형 & 별명 = 변수명
+ex) int &num2 = num1
+
+별명을 통해서 변수에 똑같이 접근 가능
+
+참조자의 선언 가능 범위
+ 1. 상수에는 불가능
+ 2. 참조자는 선언과 동시에 변수를 참조해야 한다 (선언만 하는 것은 불가능)
+ 3. null로 초기화하는 것은 불가능
+
+오로지 변수 성향인 대상만 참조자 선언이 가능하다
+따라서 배열의 원소 역시 참조자 선언의 대상이다
+
+참조자는 참조의 대상을 변경할 수 없다
+이미 선언된 참조자는 다른 변수를 참조할 수 없다
+
+
+ * 함수의 참조 방법
+ 1. call by value
+ 2. call by address
+ 3. call by reference
+
+
+ * call by value
+값을 전달하면서 호출
+
+int func(int num1, int num2) {}
+
+
+ * call by address
+주소 값을 전달하면서 호출
+
+int func(ptr * num1, ptr * num2) {}
+
+
+ * call by reference
+참조자를 이용한 호출
+
+int func(int & ref1, int & ref2) {}
+
+매개변수는 함수가 호출될 때 선언되는 변수이므로
+call by reference 함수가 호출됨과 동시에
+함수의 참조자는 선언과 동시에 초기화된다
+
+
+ * const 참조자
+함수에서 참조자를 이용하여
+전달받은 인자(변수)의 값을 변경하지 않겠다는 의미
+
+int func(const int & ref) {}
+
+함수쪽에서 임의로 (실수로) 호출한 쪽의 변수 변경 불가능
+
+매개변수가 참조자이고 반환이 참조자인 경우
+ex) int & func(int & ref) {}
+
+const int num = 20;
+int & ref = num;은 에러
+ㄴ 받으려면 const int & ref = num;을 써야 한다
+ㄴ const int & ref = 50; 이런 식으로
+
+const 참조자는 상수를 참조할 수 있다
+이 경우 상수를 메모리 공간에 임시적으로 저장한다
+이것이 매겨변수 형으로 참조자를 받을 수 있는 것
+
+
+ * 함수와 참조자
+반환형이 참조자인 경우
+반환되는 대상을 참조자와 변수로 받을 수 있다
+
+반환형이 값의 형태인 경우
+참조자르 받을 수 없다
+
+즉 지역 변수를 참조자로 받으려고 하면 안 된다
+
+
+ * new
+메모리 동적 할당
+
+자료형 * 포인터명 = new 자료형;
+ex) int * ptr = new int;
+
+malloc()과 다르게
+크기를 바이트 단위로 계산하는 일을 거치지 않아도 된다
+
+
+ * delete
+메모리 동적 할당 해제
+
+delete 변수명;
+ex) delete ptr;
+
+
+ * 예외 사항
+문법적인 오류가 아닌
+프로그램 논리 (방향)에 맞지 않은 오류
+
+try, catch, throw
+
+try { if (예외 조건) throw expn; }
+catch (type expn) { 처리 방법 }
+
+try { if (예외 조건) throw expn; }
+catch (type1 expn) { 처리 방법 }
+catch (type2 expn) { 처리 방법 }
+
+예외와 연관이 있는 부분은
+모두 하나의 try 블록으로 묶어야 한다
+
+함수에서 예외를 처리하지 않으면
+함수를 호출한 영역으로 예외 데이터와 그 책임까지 전달된다
+
+자료형이 일치하지 않아도 예외 데이터는 전달된다
+
+예외의 명시
+자료형 함수명() throw(타입1, 타입2) {}
+ex) int func(int num) throw (int, char) {}
+ㄴ int형 예외 데이터와 char형 예외 데이터가 전달될 수 있다는 것
+
+new 연산자에 의해서 전달되는 예외
+키워드로 bad_alloc 사용
+ex) catch(bad_alloc & bad) {}
+
+모든 예외를 처리하는 catch 블록
+catch(...) {}
+
+ 예외 던지기
+catch 블록에 전달된 예외는 다시 던져질 수 있다
+chatch(타입명 expn) { throw; } 이런 식으로
+
+
+ * what()
+예외 객체에 대한 설명을 반환
+예외가 발생했을 때 해당 예외에 대한 정보를 제공
+
+오버라이딩해서 사용한다
